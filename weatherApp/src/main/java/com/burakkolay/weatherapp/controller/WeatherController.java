@@ -36,8 +36,27 @@ public class WeatherController {
         httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<String >(httpHeaders);
 
-        return restTemplate.exchange(apiEndPoint+city+"/today?unitGroup="+unitGroup+"&key="+apiKey+"&contentType="+contentType, HttpMethod.GET,entity,String.class).getBody();
-
+        return restTemplate.exchange(apiEndPoint+city+"/today?unitGroup="+unitGroup+"&include=days"+"&key="+apiKey
+                +"&contentType="+contentType, HttpMethod.GET,entity,String.class).getBody();
     }
 
+    @RequestMapping(value = "/weekly")
+    public String getWeeklyTemp(@RequestParam String city){
+        HttpHeaders httpHeaders= new HttpHeaders();
+        httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<String >(httpHeaders);
+
+        return restTemplate.exchange(apiEndPoint+city+"/next7days?unitGroup="+unitGroup+"&include=days"+"&key="+apiKey
+                +"&contentType="+contentType, HttpMethod.GET,entity,String.class).getBody();
+    }
+
+    @RequestMapping(value = "/monthly")
+    public String getMonthlyTemp(@RequestParam String city){
+        HttpHeaders httpHeaders= new HttpHeaders();
+        httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<String >(httpHeaders);
+
+        return restTemplate.exchange(apiEndPoint+city+"/next30days?unitGroup="+unitGroup+"&include=days"+"&key="+apiKey
+                +"&contentType="+contentType, HttpMethod.GET,entity,String.class).getBody();
+    }
 }
